@@ -20,7 +20,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total -= it.amount
             }
         }
-        return "$ ${total}"
+        return "INR ${total}"
     }
 
     fun getTotalExpenses(list: List<ExpenseEntity>) : String{
@@ -30,7 +30,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total += it.amount
             }
         }
-        return "$ ${total}"
+        return "INR ${total}"
     }
 
     fun getTotalIncome(list: List<ExpenseEntity>) : String{
@@ -40,7 +40,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total += it.amount
             }
         }
-        return "$ ${total}"
+        return "INR ${total}"
     }
 }
 
