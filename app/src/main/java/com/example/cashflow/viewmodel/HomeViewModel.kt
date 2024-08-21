@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.cashflow.R
+import com.example.cashflow.Utils
 import com.example.cashflow.data.ExpenseDataBase
 import com.example.cashflow.data.dao.ExpenseDao
 import com.example.cashflow.data.model.ExpenseEntity
@@ -21,7 +22,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total -= it.amount
             }
         }
-        return "INR ${total}"
+        return "INR ${Utils.formatToDecimallValue(total)}"
     }
 
     fun getTotalExpenses(list: List<ExpenseEntity>) : String{
@@ -31,7 +32,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total += it.amount
             }
         }
-        return "INR ${total}"
+        return "INR ${Utils.formatToDecimallValue(total)}"
     }
 
     fun getTotalIncome(list: List<ExpenseEntity>) : String{
@@ -41,7 +42,7 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
                 total += it.amount
             }
         }
-        return "INR ${total}"
+        return "INR ${Utils.formatToDecimallValue(total)}"
     }
 
     fun getItemIcon(item:ExpenseEntity) : Int{

@@ -80,5 +80,8 @@ dependencies {
 
     implementation("androidx.room:room-ktx:2.6.1") // Kot
 
+    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
 
 }

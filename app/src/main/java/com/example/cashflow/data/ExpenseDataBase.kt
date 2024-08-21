@@ -30,11 +30,16 @@ abstract class ExpenseDataBase : RoomDatabase() {
                     fun InitBasicData(context: Context){
                         CoroutineScope(Dispatchers.IO).launch {
                             val Dao = getDatabase(context).expenseDao()
-                            Dao.insertExpense(ExpenseEntity(1, "salary",50000.34 ,System.currentTimeMillis(), "Salary","Income"))
-                            Dao.insertExpense(ExpenseEntity(2, "Rent", 3000.10,System.currentTimeMillis(),"Rent","Expense"))
-                            Dao.insertExpense(ExpenseEntity(3, "Grocery", 2000.20, System.currentTimeMillis(),"Netflix","Expense"))
-                            Dao.insertExpense(ExpenseEntity(4, "Freelancing",40000.45, System.currentTimeMillis(),"Starbucks","Income"))
-                            Dao.insertExpense(ExpenseEntity(5, "Rent", 3000.54,System.currentTimeMillis(),"Paypal","Expense"))
+                            Dao.insertExpense(ExpenseEntity(1, "salary",50000.34 ,
+                                System.currentTimeMillis().toString(), "Salary","Income"))
+                            Dao.insertExpense(ExpenseEntity(2, "Rent", 3000.10,
+                                System.currentTimeMillis().toString(),"Rent","Expense"))
+                            Dao.insertExpense(ExpenseEntity(3, "Grocery", 2000.20,
+                                System.currentTimeMillis().toString(),"Netflix","Expense"))
+                            Dao.insertExpense(ExpenseEntity(4, "Freelancing",40000.45,
+                                System.currentTimeMillis().toString(),"Starbucks","Income"))
+                            Dao.insertExpense(ExpenseEntity(5, "Rent", 3000.54,
+                                System.currentTimeMillis().toString(),"Paypal","Expense"))
                         }
                     }
                 })

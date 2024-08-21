@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -29,21 +30,34 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.cashflow.data.model.ExpenseEntity
+import com.example.cashflow.viewmodel.AddExpenseViewModel
+import com.example.cashflow.viewmodel.AddExpenseViewModelFactory
 import com.example.cashflow.widget.ExpenseTextView
+import kotlinx.coroutines.launch
 
 @Composable
-fun AddExpense() {
+fun AddExpense(navController: NavController) {
+
+    val viewModel =
+        AddExpenseViewModelFactory(LocalContext.current).create(AddExpenseViewModel::class.java)
+
+    val coroutineScope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -95,13 +109,19 @@ fun AddExpense() {
                     top.linkTo(nameRow.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                })
+                }, onAddExpenseClick = {
+                    coroutineScope.launch {
+                       if(viewModel.addExpense(it)){
+                           navController.popBackStack()
+                       }
+                    }
+            })
         }
     }
 }
 
 @Composable
-fun DataForm(modifier: Modifier) {
+fun DataForm(modifier: Modifier , onAddExpenseClick : (model : ExpenseEntity) -> Unit) {
 
     val name = remember {
         mutableStateOf("")
@@ -162,7 +182,11 @@ fun DataForm(modifier: Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { dataDialogVisibility.value = true },
-            enabled = false
+            enabled = false,
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledBorderColor = Color.Black,
+                disabledTextColor = Color.Black
+            )
         )
 
 
@@ -170,20 +194,32 @@ fun DataForm(modifier: Modifier) {
 
         ExpenseTextView(text = "Category", fontSize = 14.sp)
         Spacer(modifier = Modifier.size(4.dp))
-        ExpenseDropDown(listOf("Netflix", "Paypal", "Starbucks", "Salary", "Upwork"), onItemSelected = {
-            category.value = it
-        } )
+        ExpenseDropDown(
+            listOf("Netflix", "Paypal", "Starbucks", "Salary", "Upwork"),
+            onItemSelected = {
+                category.value = it
+            })
         //type
 
         ExpenseTextView(text = "Type", fontSize = 14.sp)
         Spacer(modifier = Modifier.size(4.dp))
         ExpenseDropDown(listOf("Income", "Expense"), onItemSelected = {
             type.value = it
-        } )
+        })
 
 
         Button(
-            onClick = { },
+            onClick = {
+                val model = ExpenseEntity(
+                    null,
+                    name.value,
+                    amount.value.toDoubleOrNull() ?: 0.0,
+                    Utils.formatDateToHumanReadableForm(date.value),
+                    category.value,
+                    type.value
+                )
+                onAddExpenseClick(model)
+            },
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .fillMaxWidth()
@@ -263,5 +299,5 @@ fun ExpenseDropDown(listOfItems: List<String>, onItemSelected: (item: String) ->
 @Composable
 @Preview(showBackground = true)
 fun AddExpensePreview() {
-    AddExpense()
+    AddExpense(rememberNavController())
 }
