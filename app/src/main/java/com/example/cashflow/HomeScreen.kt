@@ -105,7 +105,7 @@ fun HomeScreen() {
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                         height = Dimension.fillToConstraints
-                    },list = state.value
+                    },list = state.value,viewModel
             )
         }
     }
@@ -132,7 +132,7 @@ fun CardItem(modifier: Modifier, balance: String, income: String, expenses: Stri
             Column(modifier = Modifier.align(Alignment.CenterStart)) {
                 ExpenseTextView(text = "Total balance", fontSize = 16.sp, color = Color.White)
                 ExpenseTextView(
-                    text = "INR + $balance",
+                    text = balance,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -166,14 +166,13 @@ fun CardItem(modifier: Modifier, balance: String, income: String, expenses: Stri
 
 
 @Composable
-fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>) {
+fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>,viewModel: HomeViewModel) {
     LazyColumn(
         modifier = modifier
             .padding(16.dp)
             .padding(top = 310.dp)
     ) {
         item {
-
             Box(modifier = Modifier.fillMaxWidth()) {
                 ExpenseTextView(text = "Recent Transactions", fontSize = 20.sp)
                 ExpenseTextView(
@@ -187,7 +186,7 @@ fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>) {
             TransactionItem(
                 title = item.title,
                 amount = item.amount.toString(),
-                icon = if(item.type == "Income") R.drawable.upwork else R.drawable.paypal,
+                icon = viewModel.getItemIcon(item),
                 date = item.date.toString(),
                 color = if (item.type == "Income") Color.Green else Color.Red
             )
@@ -204,7 +203,7 @@ fun CardRowItem(modifier: Modifier, title: String, amount: String, image: Int) {
             Spacer(modifier = Modifier.size(8.dp))
             ExpenseTextView(text = title, fontSize = 16.sp, color = Color.White)
         }
-        ExpenseTextView(text = "INR $amount", fontSize = 20.sp, color = Color.White)
+        ExpenseTextView(text = amount, fontSize = 20.sp, color = Color.White)
     }
 }
 

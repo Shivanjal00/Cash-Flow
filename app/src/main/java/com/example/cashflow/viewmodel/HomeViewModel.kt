@@ -3,6 +3,7 @@ package com.example.cashflow.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.cashflow.R
 import com.example.cashflow.data.ExpenseDataBase
 import com.example.cashflow.data.dao.ExpenseDao
 import com.example.cashflow.data.model.ExpenseEntity
@@ -42,6 +43,21 @@ class HomeViewModel(dao: ExpenseDao) : ViewModel() {
         }
         return "INR ${total}"
     }
+
+    fun getItemIcon(item:ExpenseEntity) : Int{
+
+        if(item.category == "Salary"){
+            return R.drawable.upwork
+        }else if(item.category == "Paypal"){
+            return R.drawable.paypal
+        }else if(item.category == "Netflix"){
+            return R.drawable.netflix
+        }else if(item.category == "Starbucks"){
+            return R.drawable.starbucks
+        }
+        return R.drawable.money
+    }
+
 }
 
 class HomeViewModelFactory(private val context: Context) : ViewModelProvider.Factory{

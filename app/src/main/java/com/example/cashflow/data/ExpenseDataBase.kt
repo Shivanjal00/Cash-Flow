@@ -32,9 +32,9 @@ abstract class ExpenseDataBase : RoomDatabase() {
                             val Dao = getDatabase(context).expenseDao()
                             Dao.insertExpense(ExpenseEntity(1, "salary",50000.34 ,System.currentTimeMillis(), "Salary","Income"))
                             Dao.insertExpense(ExpenseEntity(2, "Rent", 3000.10,System.currentTimeMillis(),"Rent","Expense"))
-                            Dao.insertExpense(ExpenseEntity(3, "Grocery", 2000.20, System.currentTimeMillis(),"Grocery","Expense"))
-                            Dao.insertExpense(ExpenseEntity(4, "Freelancing",40000.45, System.currentTimeMillis(),"Freelancing","Income"))
-                            Dao.insertExpense(ExpenseEntity(5, "Rent", 3000.54,System.currentTimeMillis(),"Rent","Expense"))
+                            Dao.insertExpense(ExpenseEntity(3, "Grocery", 2000.20, System.currentTimeMillis(),"Netflix","Expense"))
+                            Dao.insertExpense(ExpenseEntity(4, "Freelancing",40000.45, System.currentTimeMillis(),"Starbucks","Income"))
+                            Dao.insertExpense(ExpenseEntity(5, "Rent", 3000.54,System.currentTimeMillis(),"Paypal","Expense"))
                         }
                     }
                 })
